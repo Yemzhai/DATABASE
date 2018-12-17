@@ -1,0 +1,37 @@
+SELECT h.name
+FROM High h
+  JOIN Friends f ON h.ID = f.ID1
+  JOIN High h1 ON h1.ID = f.ID2
+WHERE h.name = 'Gabriel' OR h1.name = 'Gabriel';
+
+
+SELECT h.name
+FROM High h
+  JOIN Likes l ON l.ID = l.ID1
+  JOIN High h1 ON h1.ID = l.ID2
+WHERE h.grade >= h1.grade + 2;
+
+
+SELECT name
+FROM High
+WHERE ID IN (SELECT ID2
+             FROM Likes
+             GROUP BY ID2
+             HAVING count(ID2) >= 2);
+
+
+SELECT h.name
+FROM High h
+  JOIN Friends f ON h.ID = f.ID1
+  JOIN High h1 ON h1.ID = f.ID2
+WHERE h.grade = h1.grade
+ORDER BY grade, name;
+
+
+SELECT h.name
+FROM High h
+  JOIN Likes l ON h.ID = l.ID1
+  JOIN High h1 ON h1.ID = l.ID2
+WHERE l.ID1 IN (SELECT ID2
+                FROM Likes
+                WHERE ID1 = l.ID2);

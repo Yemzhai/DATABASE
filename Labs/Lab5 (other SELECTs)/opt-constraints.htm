@@ -1,0 +1,206 @@
+
+<!-- saved from url=(0075)https://lagunita.stanford.edu/c4x/Engineering/db/asset/opt-constraints.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><script type="text/javascript" language="javascript"> 
+var display = 0;
+function showSolution()
+  {
+  if(display==0)
+{
+display = 1;
+document.getElementById("solutionDiv").style.display = "block";
+document.getElementById("button1").value = "Hide Solutions";
+}
+  else
+{
+display = 0;
+document.getElementById("solutionDiv").style.display = "none";
+document.getElementById("button1").value = "Show Solutions";
+}
+  }
+  </script>
+
+
+  </head><body><h1>Constraints Movie-Ratings Exercises<br>
+    </h1>
+    <br>
+    You will enhance the movie-ratings database that was also used for
+    the SQL Movie-Ratings Query Exercises. In this set of exercises you will declare integrity
+    constraints on the data, and you will verify that they are being
+    enforced by the underlying database management system. You will
+    experiment with several types of constraints: <span style="font-style: italic;">key constraints</span>, <span style="font-style: italic;">non-null constraints</span>, <span style="font-style: italic;">attribute-based </span>and<span style="font-style: italic;"> tuple-based check constraints</span>,
+    and <span style="font-style: italic;">referential integrity</span>.
+    <br>
+    <span style="font-weight: bold;">Schema:</span><br>
+    Movie ( mID, title, year, director )<br>
+    English: There is a movie with ID number <span style="font-style:
+      italic;">mID</span>, a <span style="font-style: italic;">title</span>,
+    a release <span style="font-style: italic;">year</span>, and a <span style="font-style: italic;">director</span>.<br>
+    <br>
+    Reviewer ( rID, name )<br>
+    English: The reviewer with ID number <span style="font-style:
+      italic;">rID</span> has a certain <span style="font-style:
+      italic;">name</span>.<br>
+    <br>
+    Rating ( rID, mID, stars, ratingDate )<br>
+    English: The reviewer <span style="font-style: italic;">rID</span>
+    gave the movie <span style="font-style: italic;">mID</span> a
+    number of <span style="font-style: italic;">stars</span> rating
+    (1-5) on a certain <span style="font-style: italic;">ratingDate</span>.<br>
+    <br>
+    Unlike most of our other exercises, which are a set of queries to be
+    written individually, this exercise set involves bigger chunks of
+    work followed by a series of tests. If the constraints are
+    implemented correctly, the tests will generate or not generate
+    errors as specified. To verify that the referential integrity
+    policies are implemented correctly, there is a check of the final
+    database state.<br>
+    <br>
+    <br>
+    <span style="font-weight: bold;"><big>Task 1: Constraint
+        Declarations</big><br>
+      <br>
+    Add the following ten constraints. (Note: You may
+    want to examine the date format in the data file so you can specify
+    date-related constraints as string comparisons.)<br>
+    <br>
+    <span style="font-weight: bold;">Key Constraints</span><br>
+    <br>
+    1.&nbsp; mID is a key for Movie<br>
+    2.&nbsp; (title,year) is a key for Movie<br>
+    3.&nbsp; rID is a key for Reviewer<br>
+    4.&nbsp; (rID,mID,ratingDate) is a key for Rating but with null
+    values allowed<br>
+    <br>
+    <span style="font-weight: bold;">Non-Null Constraints</span><br>
+    <br>
+    5.&nbsp; Reviewer.name may not be NULL<br>
+    6.&nbsp; Rating.stars may not be NULL<br>
+    <br>
+    <span style="font-weight: bold;">Attribute-Based Check Constraints</span><br>
+    <br>
+    7.&nbsp; Movie.year must be after 1900<br>
+    8.&nbsp; Rating.stars must be in {1,2,3,4,5}<br>
+    9.&nbsp; Rating.ratingDate must be after 2000<br>
+    <br>
+    <span style="font-weight: bold;">Tuple-Based Check Constraints</span><br>
+    <br>
+    10.&nbsp; "Steven Spielberg" movies must be before 1990 and "James
+    Cameron" movies must be after 1990<br>
+    <br>
+    <br>
+    <big><span style="font-weight: bold;">Task 2: Load the Database</span></big><br>
+    <br>
+    After creating the three tables using your modified CREATE TABLE
+    statements, you should be able to load the original data (i.e.,
+    execute all of the INSERT statements in the data file) without any
+    errors.<br>
+    <br>
+    <br>
+    <big><span style="font-weight: bold;">Task 3: Constraint Enforcement</span></big><br>
+    <br>
+    <span style="font-style: italic;">Each of the following commands
+      should generate an error.</span><br>
+    <br>
+    11.&nbsp; update Movie set mID = mID + 1;<br>
+    <br>
+    12.&nbsp; insert into Movie values (109, 'Titanic', 1997, 'JC');<br>
+    <br>
+    13.&nbsp; insert into Reviewer values (201, 'Ted Codd');<br>
+    <br>
+    14.&nbsp; update Rating set rID = 205, mID = 104;<br>
+    <br>
+    15.&nbsp; insert into Reviewer values (209, null);<br>
+    <br>
+    16.&nbsp; update Rating set stars = null where rID = 208;<br>
+    <br>
+    17.&nbsp; update Movie set year = year - 40;<br>
+    <br>
+    18.&nbsp; update Rating set stars = stars + 1;<br>
+    <br>
+    19.&nbsp; insert into Rating values (201, 101, 1, '1999-01-01');<br>
+    <br>
+    20.&nbsp; insert into Movie values (109, 'Jurassic Park', 1993,
+    'Steven Spielberg');<br>
+    <br>
+    21.&nbsp; update Movie set year = year-10 where title = 'Titanic';<br>
+    <br>
+    <span style="font-style: italic;">None of the following commands
+      should generate errors.</span><br>
+    <br>
+    22.&nbsp; insert into Movie values (109, 'Titanic', 2001, null);<br>
+    <br>
+    23.&nbsp; update Rating set mID = 109;<br>
+    <br>
+    24.&nbsp; update Movie set year = 1901 where director &lt;&gt;
+    'James Cameron';<br>
+    <br>
+    25.&nbsp; update Rating set stars = stars - 1;<br>
+    <br>
+    <br>
+    <big><span style="font-weight: bold;">Task 4: Referential Integrity
+        Declarations</span></big><br>
+    <br>
+    Further modify one or more of your CREATE TABLE statements to
+    include the following referential integrity constraints and
+    policies.<br>
+    <br>
+    26.&nbsp; Referential integrity from Rating.rID to Reviewer.rID<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Reviewers
+    updated: cascade<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Reviewers
+    deleted: set null<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; All others:
+    error<br>
+    <br>
+    26.&nbsp; Referential integrity from Rating.mID to Movie.mID<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Movies
+    deleted: cascade<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; All others:
+    error<br>
+    <br>
+    <br>
+    <big><span style="font-weight: bold;">Task 5: Reload the Database</span></big><br>
+    <br>
+    Recreate the three tables using your modified CREATE TABLE
+    statements. You should be able to load the original data (i.e.,
+    execute all of the INSERT statements in the data file) without any
+    errors.<br>
+    <br>
+    <br>
+    <big><span style="font-weight: bold;">Task 6: Referential Integrity
+        Enforcement</span></big><br>
+    <br>
+    <span style="font-style: italic;">Each of the following commands
+      should generate an error.</span><br>
+    <br>
+    27.&nbsp; insert into Rating values (209, 109, 3, '2001-01-01');<br>
+    <br>
+    28.&nbsp; update Rating set rID = 209 where rID = 208;<br>
+    <br>
+    29.&nbsp; update Rating set mID = mID + 1;<br>
+    <br>
+    30.&nbsp; update Movie set mID = 109 where mID = 108;<br>
+    <br>
+    <span style="font-style: italic;">None of the following commands
+      should generate errors, but they will make additional database
+      modifications according to the referential-integrity policies.<br>
+      <br>
+    </span>31.&nbsp; update Movie set mID = 109 where mID = 102;<br>
+    <br>
+    32.&nbsp; update Reviewer set rID = rID + 10;<br>
+    <br>
+    33.&nbsp; delete from Reviewer where rID &gt; 215;<br>
+    <br>
+    34.&nbsp; delete from Movie where mID &lt; 105;<span style="font-style: italic;"><br>
+      <br>
+    </span><span style="font-weight: bold;">Final Check</span><br>
+    <br>
+    35.&nbsp; Check the resulting database by writing SQL queries to
+    compute:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (a) The sum
+    of non-null rIDs in the Rating table -- should be 853<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (b) The
+    number of tuples in Rating with null rIDs -- should be 3<br>
+    <br>
+    <br>
+<script type="text/javascript" async="" src="./opt-constraints_files/vk.js"></script></body></html>
